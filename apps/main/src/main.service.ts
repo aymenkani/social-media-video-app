@@ -27,7 +27,7 @@ export class MainService {
   }
 
   async streamVideo(videoId: number) {
-    return this.authService.send<string, StreamVideoEvent>(
+    return this.contentService.send<string, StreamVideoEvent>(
       Subjects.StreamVideo,
       {
         key: Subjects.StreamVideo,
@@ -48,13 +48,15 @@ export class MainService {
     );
   }
 
-  async getContent(userId: number) {
+  async getContent(userId: number, page: number, perPage: number) {
     return this.contentService.send<string, GetContentEvent>(
       Subjects.GetContent,
       {
         key: Subjects.GetContent,
         value: {
           userId,
+          page,
+          perPage,
         },
       },
     );

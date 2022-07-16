@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Query, Context, Args, Resolver } from '@nestjs/graphql';
+import { Query, Context, Args, Resolver, Int } from '@nestjs/graphql';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LoginArgs } from './dtos/login.args';
 import { MainService } from './main.service';
@@ -22,14 +22,13 @@ export class MainResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => Buffer)
-  async streamVideo(@Args() videoId: number) {
-    return await this.mainService.streamVideo(videoId);
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Query(() => Video)
-  async getContent(@Context() { req }) {
-    return await this.mainService.getContent(req.user?.userId);
+  async getContent(
+    @Context() { req },
+    @Args('page', { type: () => Int }) page: number,
+    @Args('perPage', { type: () => Int }) perPage: number,
+  ) {
+    console.log(req);
+    return await this.mainService.getContent(req.user?.userId, page, perPage);
   }
 }

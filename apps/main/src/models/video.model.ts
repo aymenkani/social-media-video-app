@@ -9,7 +9,7 @@ export class Video {
   user: string;
 
   @Field({ nullable: true })
-  buffer?: Buffer;
+  buffer?: string;
 
   @Field({ nullable: true })
   isPublic?: boolean;

@@ -1,7 +1,8 @@
+import { AggregateRoot } from '@nestjs/cqrs';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class User extends AggregateRoot {
   @PrimaryGeneratedColumn()
   id: number;
 

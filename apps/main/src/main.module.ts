@@ -10,11 +10,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { jwtConstants } from 'streamapp/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { JwtStrategy } from './auth/jwt-strategy';
+import { join } from 'path';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     PassportModule,
     JwtModule.register({
@@ -31,7 +33,7 @@ import { JwtStrategy } from './auth/jwt-strategy';
         options: {
           client: {
             clientId: 'auth',
-            brokers: ['localhost:9092'],
+            brokers: ['localhost:29092'],
           },
           consumer: {
             groupId: 'auth-consumer',
@@ -46,7 +48,7 @@ import { JwtStrategy } from './auth/jwt-strategy';
         options: {
           client: {
             clientId: 'content',
-            brokers: ['localhost:9092'],
+            brokers: ['localhost:29092'],
           },
           consumer: {
             groupId: 'content-consumer',

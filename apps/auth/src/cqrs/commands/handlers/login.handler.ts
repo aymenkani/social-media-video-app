@@ -8,13 +8,13 @@ import { JwtService } from '@nestjs/jwt';
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand> {
   constructor(
-    private userService: UsersService,
+    private usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
   async execute(command: LoginCommand) {
     const { email, password } = command.cmd;
-    const user = await this.userService.findOneByEmail(email);
+    const user = await this.usersService.findOneByEmail(email);
 
     if (!user) throw new BadRequestException('Wrong credentials!');
 

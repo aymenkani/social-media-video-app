@@ -15,7 +15,8 @@ export class ContentController {
 
   @MessagePattern(Subjects.StreamVideo)
   async streamVideo(@Payload() message: StreamVideoEvent) {
-    const videoId = message.value.videoId;
+    const { videoId } = message.value;
+
     return await this.contentService.streamVideo(videoId);
   }
 

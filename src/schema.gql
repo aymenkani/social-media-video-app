@@ -1,0 +1,23 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Video {
+  id: Int!
+  user: String!
+  buffer: String
+  isPublic: Boolean
+}
+
+type User {
+  id: Int!
+  firstName: String
+  lastName: String
+  videos: [Video!]!
+}
+
+type Query {
+  currentUser: User!
+  login(email: String, password: String): User!
+  getContent(page: Int!, perPage: Int!): Video!
+}

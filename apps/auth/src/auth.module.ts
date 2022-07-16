@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
@@ -15,16 +16,17 @@ const commandHandlers = [LoginHandler, SignupHandler];
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: 'localhost',
-      port: 3306,
-      username: 'root',
+      port: 5432,
+      username: 'postgres',
       password: 'root',
-      database: 'test',
+      database: 'app',
       synchronize: true,
       autoLoadEntities: true,
     }),
     UsersModule,
+    CqrsModule,
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -45,11 +47,10 @@ const commandHandlers = [LoginHandler, SignupHandler];
         },
       },
     ]),
-    ...commandHandlers,
-    AuthSagas,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, ...commandHandlers, AuthSagas],
+  exports: [ClientsModule],
 })
 export class AuthModule {
   constructor(private dataSource: DataSource) {}

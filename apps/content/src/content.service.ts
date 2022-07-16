@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
+import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { writeFile } from 'fs/promises';
 import { EventUserData, UploadVideoDto } from 'streamapp/common';
@@ -13,12 +14,10 @@ export class ContentService {
     private commandBus: CommandBus,
   ) {}
 
-  async streamVideo(videoId: number) {
+  async streamVideo(videoId: number): Promise<string> {
     const video = await this.contentsService.getVideo(videoId);
-    await writeFile('/videos/video.mp4', video.buffer);
-    const videoStream = createReadStream('/videos/video.mp4');
 
-    return videoStream;
+    return video.buffer;
   }
 
   async uploadVideo(data: UploadVideoDto) {

@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Module } from '@nestjs/common';
 import { ICommand, ofType, Saga } from '@nestjs/cqrs';
-import { ClientKafka } from '@nestjs/microservices';
+import { ClientKafka, ClientsModule, Transport } from '@nestjs/microservices';
 import { map, Observable } from 'rxjs';
 import { Subjects, UserCreatedEvent } from 'streamapp/common';
 import { OnSignupEvent } from '../events/impl/on-signup.event';
