@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: content-postgres-depl
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: content-postgres
+    template:
+      metadata:
+        labels:
+          app: content-postgres
+      spec:
+        containers:
+          - name: content-postgres
+            image: postgres
+          - env:
+            - name: POSTGRES_USER
+              value: "root"
+            - name: POSTGRES_PASSWORD
+              value: "root"
+            - name: POSTGRES_BB
+              value: "content"         
+---
+apiVersion: v1
+kind: Service  
+metadata:
+  name: content-postgres-srv
+spec:
+  selector:
+    app: content-postgres
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432 

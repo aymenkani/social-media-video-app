@@ -16,6 +16,6 @@ async function bootstrap() {
     },
   });
 
-  app.listen();
+  app.init();
 }
 bootstrap();
